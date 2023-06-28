@@ -44,7 +44,7 @@ const hangupButton = document.getElementById('hangupButton');
 // 1. Setup media sources
 
 webcamButton.onclick = async () => {
-  localStream = await navigator.mediaDevices.getUserMedia({ video: true });
+  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
   remoteStream = new MediaStream();
 
   // Push tracks from local stream to peer connection
@@ -83,8 +83,9 @@ callButton.onclick = async () => {
 
   // Create offer
   const offerDescription = await pc.createOffer();
-/*
   const fingerprintLine = getFingerprint(offerDescription.sdp);
+
+/*
   offerDescription.sdp =
 `v=0\r
 o=- 662063277573701632 2 IN IP4 127.0.0.1\r
@@ -167,7 +168,7 @@ a=ssrc:1080772241 cname:lSOd4dTBmQJ/kxOu\r
 a=ssrc:1080772241 msid:2c99327e-1722-4fcc-a0b1-2b1b0e316b4d 5fa47195-2ea0-4672-9177-bfedd526a2ea\r\n`
 */
 
-const fingerprintLine = getFingerprint(offerDescription.sdp);
+/*
 offerDescription.sdp =
 `v=0\r
 o=- 8403615332048243445 2 IN IP4 127.0.0.1\r
@@ -198,6 +199,126 @@ a=fmtp:122 repair-window=10000000\r
 a=ssrc-group:FEC-FR 1224551896 1953032773\r
 a=ssrc:1224551896 cname:/exJcmhSLpyu9FgV\r
 a=ssrc:1953032773 cname:/exJcmhSLpyu9FgV\r\n`;
+*/
+
+offerDescription.sdp =
+`v=0\r
+o=- 3917366719420873404 2 IN IP4 127.0.0.1\r
+s=-\r
+t=0 0\r
+a=msid-semantic: WMS yLfNPDbbimfHscKAhoknwawZaAwPogS2UHXe\r
+m=video 9 UDP/TLS/RTP/SAVPF 96 97 98 99 100 101 102 122 127 121 125 107 108 109 124 120 123 119 117\r
+c=IN IP4 0.0.0.0\r
+a=rtcp:9 IN IP4 0.0.0.0\r
+a=ice-ufrag:FaMq\r
+a=ice-pwd:LdwFc2X4VT0cLYSNpVnJHdY2\r
+a=ice-options:trickle\r
+${fingerprintLine}\r
+a=setup:actpass\r
+a=mid:1\r
+a=extmap:14 urn:ietf:params:rtp-hdrext:toffset\r
+a=extmap:2 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r
+a=extmap:13 urn:3gpp:video-orientation\r
+a=extmap:3 http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01\r
+a=extmap:12 http://www.webrtc.org/experiments/rtp-hdrext/playout-delay\r
+a=extmap:11 http://www.webrtc.org/experiments/rtp-hdrext/video-content-type\r
+a=extmap:7 http://www.webrtc.org/experiments/rtp-hdrext/video-timing\r
+a=extmap:8 http://tools.ietf.org/html/draft-ietf-avtext-framemarking-07\r
+a=extmap:9 http://www.webrtc.org/experiments/rtp-hdrext/color-space\r
+a=extmap:4 urn:ietf:params:rtp-hdrext:sdes:mid\r
+a=extmap:5 urn:ietf:params:rtp-hdrext:sdes:rtp-stream-id\r
+a=extmap:6 urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id\r
+a=sendrecv\r
+a=msid:yLfNPDbbimfHscKAhoknwawZaAwPogS2UHXe cd9bb9d3-a612-45d5-afc7-8c0b60b0bde5\r
+a=rtcp-mux\r
+a=rtcp-rsize\r
+a=rtpmap:96 VP8/90000\r
+a=rtcp-fb:96 goog-remb\r
+a=rtcp-fb:96 transport-cc\r
+a=rtcp-fb:96 ccm fir\r
+a=rtcp-fb:96 nack\r
+a=rtcp-fb:96 nack pli\r
+a=rtpmap:97 rtx/90000\r
+a=fmtp:97 apt=96\r
+a=rtpmap:98 VP9/90000\r
+a=rtcp-fb:98 goog-remb\r
+a=rtcp-fb:98 transport-cc\r
+a=rtcp-fb:98 ccm fir\r
+a=rtcp-fb:98 nack\r
+a=rtcp-fb:98 nack pli\r
+a=fmtp:98 profile-id=0\r
+a=rtpmap:99 rtx/90000\r
+a=fmtp:99 apt=98\r
+a=rtpmap:100 VP9/90000\r
+a=rtcp-fb:100 goog-remb\r
+a=rtcp-fb:100 transport-cc\r
+a=rtcp-fb:100 ccm fir\r
+a=rtcp-fb:100 nack\r
+a=rtcp-fb:100 nack pli\r
+a=fmtp:100 profile-id=2\r
+a=rtpmap:101 rtx/90000\r
+a=fmtp:101 apt=100\r
+a=rtpmap:102 H264/90000\r
+a=rtcp-fb:102 goog-remb\r
+a=rtcp-fb:102 transport-cc\r
+a=rtcp-fb:102 ccm fir\r
+a=rtcp-fb:102 nack\r
+a=rtcp-fb:102 nack pli\r
+a=fmtp:102 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42001f\r
+a=rtpmap:122 rtx/90000\r
+a=fmtp:122 apt=102\r
+a=rtpmap:127 H264/90000\r
+a=rtcp-fb:127 goog-remb\r
+a=rtcp-fb:127 transport-cc\r
+a=rtcp-fb:127 ccm fir\r
+a=rtcp-fb:127 nack\r
+a=rtcp-fb:127 nack pli\r
+a=fmtp:127 level-asymmetry-allowed=1;packetization-mode=0;profile-level-id=42001f\r
+a=rtpmap:121 rtx/90000\r
+a=fmtp:121 apt=127\r
+a=rtpmap:125 H264/90000\r
+a=rtcp-fb:125 goog-remb\r
+a=rtcp-fb:125 transport-cc\r
+a=rtcp-fb:125 ccm fir\r
+a=rtcp-fb:125 nack\r
+a=rtcp-fb:125 nack pli\r
+a=fmtp:125 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42e01f\r
+a=rtpmap:107 rtx/90000\r
+a=fmtp:107 apt=125\r
+a=rtpmap:108 H264/90000\r
+a=rtcp-fb:108 goog-remb\r
+a=rtcp-fb:108 transport-cc\r
+a=rtcp-fb:108 ccm fir\r
+a=rtcp-fb:108 nack\r
+a=rtcp-fb:108 nack pli\r
+a=fmtp:108 level-asymmetry-allowed=1;packetization-mode=0;profile-level-id=42e01f\r
+a=rtpmap:109 rtx/90000\r
+a=fmtp:109 apt=108\r
+a=rtpmap:124 H264/90000\r
+a=rtcp-fb:124 goog-remb\r
+a=rtcp-fb:124 transport-cc\r
+a=rtcp-fb:124 ccm fir\r
+a=rtcp-fb:124 nack\r
+a=rtcp-fb:124 nack pli\r
+a=fmtp:124 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=4d0032\r
+a=rtpmap:120 rtx/90000\r
+a=fmtp:120 apt=124\r
+a=rtpmap:123 H264/90000\r
+a=rtcp-fb:123 goog-remb\r
+a=rtcp-fb:123 transport-cc\r
+a=rtcp-fb:123 ccm fir\r
+a=rtcp-fb:123 nack\r
+a=rtcp-fb:123 nack pli\r
+a=fmtp:123 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=640032\r
+a=rtpmap:119 rtx/90000\r
+a=fmtp:119 apt=123\r
+a=rtpmap:117 flexfec-03/90000\r
+a=fmtp:117 L:5; D:10; ToP:2; repair-window:200\r
+a=ssrc-group:FID 1150774572 3495085709\r
+a=ssrc-group:FEC-FR 1150774572 2345\r
+a=ssrc:1150774572 cname:VyEK+J+FlCThuUt0\r
+a=ssrc:3495085709 cname:VyEK+J+FlCThuUt0\r
+a=ssrc:2345 cname:VyEK+J+FlCThuUt0\r\n`;
 
   console.log("Here is the offer");
   console.log(offerDescription.sdp);
@@ -250,15 +371,141 @@ answerButton.onclick = async () => {
   await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
   const answerDescription = await pc.createAnswer();
+
+  console.log("HERE IS THE OLD ANSWER");
+  console.log(answerDescription.sdp);
+
+
+  const fingerprintLine = getFingerprint(answerDescription.sdp);
+
+  answerDescription.sdp =
+`v=0\r
+o=- 3936474526705670197 2 IN IP4 127.0.0.1\r
+s=-\r
+t=0 0\r
+a=msid-semantic: WMS 65e82b7e-1d89-485b-aac2-7d8b28c3c9e9\r
+m=video 9 UDP/TLS/RTP/SAVPF 96 97 98 99 100 101 102 122 127 121 125 107 108 109 124 120 123 119 117\r
+c=IN IP4 0.0.0.0\r
+a=rtcp:9 IN IP4 0.0.0.0\r
+a=ice-ufrag:ASpm\r
+a=ice-pwd:jZ30ohe+1A4YJVgqD4/8d6PY\r
+a=ice-options:trickle\r
+${fingerprintLine}\r
+a=setup:active\r
+a=mid:1\r
+a=extmap:14 urn:ietf:params:rtp-hdrext:toffset\r
+a=extmap:2 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r
+a=extmap:13 urn:3gpp:video-orientation\r
+a=extmap:3 http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01\r
+a=extmap:12 http://www.webrtc.org/experiments/rtp-hdrext/playout-delay\r
+a=extmap:11 http://www.webrtc.org/experiments/rtp-hdrext/video-content-type\r
+a=extmap:7 http://www.webrtc.org/experiments/rtp-hdrext/video-timing\r
+a=extmap:9 http://www.webrtc.org/experiments/rtp-hdrext/color-space\r
+a=extmap:4 urn:ietf:params:rtp-hdrext:sdes:mid\r
+a=extmap:5 urn:ietf:params:rtp-hdrext:sdes:rtp-stream-id\r
+a=extmap:6 urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id\r
+a=sendrecv\r
+a=msid:65e82b7e-1d89-485b-aac2-7d8b28c3c9e9 ed0d5f28-d226-47f7-9098-3c7718a73fc9\r
+a=rtcp-mux\r
+a=rtcp-rsize\r
+a=rtpmap:96 VP8/90000\r
+a=rtcp-fb:96 goog-remb\r
+a=rtcp-fb:96 transport-cc\r
+a=rtcp-fb:96 ccm fir\r
+a=rtcp-fb:96 nack\r
+a=rtcp-fb:96 nack pli\r
+a=rtpmap:97 rtx/90000\r
+a=fmtp:97 apt=96\r
+a=rtpmap:98 VP9/90000\r
+a=rtcp-fb:98 goog-remb\r
+a=rtcp-fb:98 transport-cc\r
+a=rtcp-fb:98 ccm fir\r
+a=rtcp-fb:98 nack\r
+a=rtcp-fb:98 nack pli\r
+a=fmtp:98 profile-id=0\r
+a=rtpmap:99 rtx/90000\r
+a=fmtp:99 apt=98\r
+a=rtpmap:100 VP9/90000\r
+a=rtcp-fb:100 goog-remb\r
+a=rtcp-fb:100 transport-cc\r
+a=rtcp-fb:100 ccm fir\r
+a=rtcp-fb:100 nack\r
+a=rtcp-fb:100 nack pli\r
+a=fmtp:100 profile-id=2\r
+a=rtpmap:101 rtx/90000\r
+a=fmtp:101 apt=100\r
+a=rtpmap:102 H264/90000\r
+a=rtcp-fb:102 goog-remb\r
+a=rtcp-fb:102 transport-cc\r
+a=rtcp-fb:102 ccm fir\r
+a=rtcp-fb:102 nack\r
+a=rtcp-fb:102 nack pli\r
+a=fmtp:102 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42001f\r
+a=rtpmap:122 rtx/90000\r
+a=fmtp:122 apt=102\r
+a=rtpmap:127 H264/90000\r
+a=rtcp-fb:127 goog-remb\r
+a=rtcp-fb:127 transport-cc\r
+a=rtcp-fb:127 ccm fir\r
+a=rtcp-fb:127 nack\r
+a=rtcp-fb:127 nack pli\r
+a=fmtp:127 level-asymmetry-allowed=1;packetization-mode=0;profile-level-id=42001f\r
+a=rtpmap:121 rtx/90000\r
+a=fmtp:121 apt=127\r
+a=rtpmap:125 H264/90000\r
+a=rtcp-fb:125 goog-remb\r
+a=rtcp-fb:125 transport-cc\r
+a=rtcp-fb:125 ccm fir\r
+a=rtcp-fb:125 nack\r
+a=rtcp-fb:125 nack pli\r
+a=fmtp:125 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=42e01f\r
+a=rtpmap:107 rtx/90000\r
+a=fmtp:107 apt=125\r
+a=rtpmap:108 H264/90000\r
+a=rtcp-fb:108 goog-remb\r
+a=rtcp-fb:108 transport-cc\r
+a=rtcp-fb:108 ccm fir\r
+a=rtcp-fb:108 nack\r
+a=rtcp-fb:108 nack pli\r
+a=fmtp:108 level-asymmetry-allowed=1;packetization-mode=0;profile-level-id=42e01f\r
+a=rtpmap:109 rtx/90000\r
+a=fmtp:109 apt=108\r
+a=rtpmap:124 H264/90000\r
+a=rtcp-fb:124 goog-remb\r
+a=rtcp-fb:124 transport-cc\r
+a=rtcp-fb:124 ccm fir\r
+a=rtcp-fb:124 nack\r
+a=rtcp-fb:124 nack pli\r
+a=fmtp:124 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=4d001f\r
+a=rtpmap:120 rtx/90000\r
+a=fmtp:120 apt=124\r
+a=rtpmap:123 H264/90000\r
+a=rtcp-fb:123 goog-remb\r
+a=rtcp-fb:123 transport-cc\r
+a=rtcp-fb:123 ccm fir\r
+a=rtcp-fb:123 nack\r
+a=rtcp-fb:123 nack pli\r
+a=fmtp:123 level-asymmetry-allowed=1;packetization-mode=1;profile-level-id=64001f\r
+a=rtpmap:119 rtx/90000\r
+a=fmtp:119 apt=123\r
+a=rtpmap:117 flexfec-03/90000\r
+a=fmtp:117 L:5; D:10; ToP:2; repair-window:200\r
+a=ssrc-group:FID 2938260438 1859461734\r
+a=ssrc-group:FEC-FR 2938260438 2345\r
+a=ssrc:2938260438 cname:uwa1YcMXZcIOqtQ4\r
+a=ssrc:1859461734 cname:uwa1YcMXZcIOqtQ4\r
+a=ssrc:2345 cname:uwa1YcMXZcIOqtQ4\r\n`
+
+
+console.log("HERE IS THE NEW ANSWER")
+console.log(answerDescription.sdp);
+
   await pc.setLocalDescription(answerDescription);
 
   const answer = {
     type: answerDescription.type,
     sdp: answerDescription.sdp,
   };
-
-  console.log("Here is the answer");
-  console.log(answer.sdp);
 
   await callDoc.update({ answer });
 
